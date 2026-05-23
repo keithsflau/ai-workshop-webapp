@@ -7,61 +7,150 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&display=swap');
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f8fafc;
+            font-family: 'Noto Sans HK', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        /* Dynamic Animated Background */
+        .bg-animated {
+            background: linear-gradient(-45deg, #4f46e5, #0ea5e9, #06b6d4, #3b82f6, #8b5cf6);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Floating Animation for Icons */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        .animate-float-delayed {
+            animation: float 3s ease-in-out 1.5s infinite;
+        }
+
+        /* Card Hover Effects */
+        .module-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .module-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Gradient Text */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #2563eb, #06b6d4);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-br from-blue-50 to-indigo-50">
+<body class="min-h-screen flex flex-col items-center justify-center p-4 md:p-8 bg-animated relative overflow-hidden">
     
-    <div class="max-w-4xl w-full bg-white rounded-2xl shadow-xl overflow-hidden">
-        <div class="bg-blue-600 p-10 text-center text-white">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">擁抱 AI ‧ 釋放教學效能</h1>
-            <h2 class="text-xl md:text-2xl font-light opacity-90">教師實作工作坊教材</h2>
+    <!-- Decorative background elements -->
+    <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-white opacity-10 rounded-full mix-blend-overlay filter blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-blue-300 opacity-20 rounded-full mix-blend-overlay filter blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+
+    <div class="max-w-5xl w-full glass-card rounded-3xl overflow-hidden relative z-10">
+        
+        <!-- Header Section -->
+        <div class="relative p-12 text-center border-b border-gray-100 bg-white/50">
+            <div class="inline-block p-4 rounded-2xl bg-gradient-to-tr from-blue-100 to-cyan-50 mb-6 shadow-inner">
+                <i class="fas fa-brain text-5xl text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 animate-float"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-4 tracking-tight text-gray-900">
+                擁抱 AI ‧ <span class="text-gradient">釋放教學效能</span>
+            </h1>
+            <h2 class="text-xl md:text-2xl font-medium text-gray-500 tracking-wide">教師實作工作坊教材</h2>
         </div>
 
-        <div class="p-10">
-            <p class="text-center text-gray-600 mb-10 text-lg">
-                請選擇您要學習的模組。我們將帶領您一步步掌握生成式 AI，減輕行政負擔，提升教學效率。
+        <!-- Content Section -->
+        <div class="p-8 md:p-12">
+            <p class="text-center text-gray-600 mb-12 text-lg max-w-2xl mx-auto leading-relaxed">
+                歡迎來到 AI 教學新時代！請選擇您要學習的模組，我們將帶領您一步步掌握生成式 AI，大幅減輕行政負擔，提升教學效率。
             </p>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- 入門篇 Button -->
-                <a href="beginner.html" class="group block p-8 bg-white border-2 border-blue-100 hover:border-blue-500 rounded-xl transition-all duration-300 hover:shadow-lg text-center relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-1 bg-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
-                    <i class="fas fa-seedling text-4xl text-blue-500 mb-4 group-hover:scale-110 transition-transform"></i>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-3">入門篇</h3>
-                    <p class="text-gray-500 text-sm">Prompt 基礎、Meta-prompting、GEM 製作、家長信及 PPT 生成</p>
-                    <div class="mt-6 inline-block px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-medium group-hover:bg-blue-500 group-hover:text-white transition-colors">
-                        開始學習 <i class="fas fa-arrow-right ml-1"></i>
+                <a href="beginner.html" class="module-card group block p-8 bg-white border border-gray-100 rounded-2xl relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+                    
+                    <div class="relative z-10 flex flex-col items-center h-full">
+                        <div class="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors duration-300">
+                            <i class="fas fa-seedling text-3xl text-blue-500 group-hover:text-white transition-colors duration-300 animate-float"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3 group-hover:text-white transition-colors duration-300">入門篇</h3>
+                        <p class="text-gray-500 text-sm text-center mb-6 flex-grow group-hover:text-blue-50 transition-colors duration-300">
+                            Prompt 基礎、Meta-prompting、GEM 製作、家長信及 PPT 生成
+                        </p>
+                        <div class="mt-auto inline-flex items-center px-5 py-2.5 bg-blue-50 text-blue-600 rounded-full text-sm font-bold group-hover:bg-white group-hover:text-blue-600 transition-all duration-300 transform group-hover:scale-105 shadow-sm">
+                            開始學習 <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
                     </div>
                 </a>
 
                 <!-- 中階篇 Button -->
-                <a href="#" onclick="alert('中階篇教材正在準備中，敬請期待！')" class="group block p-8 bg-gray-50 border-2 border-gray-100 rounded-xl transition-all duration-300 text-center cursor-not-allowed opacity-80 hover:opacity-100">
-                    <i class="fas fa-tree text-4xl text-gray-400 mb-4"></i>
-                    <h3 class="text-2xl font-bold text-gray-700 mb-3">中階篇</h3>
-                    <p class="text-gray-500 text-sm">進階 Prompt 技巧、數據分析與自動化批改</p>
-                    <div class="mt-6 inline-block px-4 py-2 bg-gray-200 text-gray-500 rounded-full text-sm font-medium">
-                        即將推出
+                <a href="#" onclick="alert('中階篇教材正在準備中，敬請期待！')" class="module-card group block p-8 bg-gray-50/80 border border-gray-100 rounded-2xl relative overflow-hidden cursor-not-allowed">
+                    <div class="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 opacity-0 group-hover:opacity-10 transition-opacity duration-500 z-0"></div>
+                    
+                    <div class="relative z-10 flex flex-col items-center h-full opacity-70 group-hover:opacity-100 transition-opacity">
+                        <div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center mb-6 group-hover:bg-purple-100 transition-colors duration-300">
+                            <i class="fas fa-tree text-3xl text-gray-400 group-hover:text-purple-500 transition-colors duration-300 animate-float-delayed"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-700 mb-3 group-hover:text-purple-700 transition-colors duration-300">中階篇</h3>
+                        <p class="text-gray-500 text-sm text-center mb-6 flex-grow">
+                            進階 Prompt 技巧、數據分析與自動化批改
+                        </p>
+                        <div class="mt-auto inline-flex items-center px-5 py-2.5 bg-gray-200 text-gray-500 rounded-full text-sm font-bold group-hover:bg-purple-100 group-hover:text-purple-600 transition-colors duration-300">
+                            即將推出 <i class="fas fa-clock ml-2"></i>
+                        </div>
                     </div>
                 </a>
 
                 <!-- 進階篇 Button -->
-                <a href="#" onclick="alert('進階篇教材正在準備中，敬請期待！')" class="group block p-8 bg-gray-50 border-2 border-gray-100 rounded-xl transition-all duration-300 text-center cursor-not-allowed opacity-80 hover:opacity-100">
-                    <i class="fas fa-rocket text-4xl text-gray-400 mb-4"></i>
-                    <h3 class="text-2xl font-bold text-gray-700 mb-3">進階篇</h3>
-                    <p class="text-gray-500 text-sm">自建 AI 應用、API 串接與校本 AI 策略</p>
-                    <div class="mt-6 inline-block px-4 py-2 bg-gray-200 text-gray-500 rounded-full text-sm font-medium">
-                        即將推出
+                <a href="#" onclick="alert('進階篇教材正在準備中，敬請期待！')" class="module-card group block p-8 bg-gray-50/80 border border-gray-100 rounded-2xl relative overflow-hidden cursor-not-allowed">
+                    <div class="absolute inset-0 bg-gradient-to-br from-orange-500 to-amber-500 opacity-0 group-hover:opacity-10 transition-opacity duration-500 z-0"></div>
+                    
+                    <div class="relative z-10 flex flex-col items-center h-full opacity-70 group-hover:opacity-100 transition-opacity">
+                        <div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center mb-6 group-hover:bg-orange-100 transition-colors duration-300">
+                            <i class="fas fa-rocket text-3xl text-gray-400 group-hover:text-orange-500 transition-colors duration-300 animate-float"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-700 mb-3 group-hover:text-orange-700 transition-colors duration-300">進階篇</h3>
+                        <p class="text-gray-500 text-sm text-center mb-6 flex-grow">
+                            自建 AI 應用、API 串接與校本 AI 策略
+                        </p>
+                        <div class="mt-auto inline-flex items-center px-5 py-2.5 bg-gray-200 text-gray-500 rounded-full text-sm font-bold group-hover:bg-orange-100 group-hover:text-orange-600 transition-colors duration-300">
+                            即將推出 <i class="fas fa-clock ml-2"></i>
+                        </div>
                     </div>
                 </a>
             </div>
         </div>
         
-        <div class="bg-gray-50 p-6 text-center text-gray-500 text-sm border-t border-gray-100">
-            &copy; 2026 教師人工智能工作坊. All rights reserved.
+        <!-- Footer -->
+        <div class="bg-gray-50/80 p-6 text-center text-gray-400 text-sm border-t border-gray-100 backdrop-blur-sm">
+            <p class="font-medium tracking-wide">&copy; 2026 教師人工智能工作坊. All rights reserved.</p>
         </div>
     </div>
 
