@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中階篇 - 教師人工智能工作坊</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@300;400;500;700;900&family=Fira+Code:wght@400;500&display=swap');
+        
+        body { 
+            font-family: 'Noto Sans HK', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background-color: #f8fafc;
+        }
+        
+        /* Smooth Scrolling */
+        html { scroll-behavior: smooth; }
+        
+        /* Glassmorphism Navbar */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Sidebar Active State */
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            left: -1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 0;
+            width: 4px;
+            background-color: #a855f7; /* Purple for intermediate */
+            border-radius: 0 4px 4px 0;
+            transition: height 0.3s ease;
+        }
+        .nav-link.active { 
+            color: #9333ea; 
+            font-weight: 700; 
+            background-color: #faf5ff;
+        }
+        .nav-link.active::before {
+            height: 70%;
+        }
+
+        /* Mac-like Code Block */
+        .code-window {
+            background: #1e1e1e;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        .code-header {
+            background: #2d2d2d;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #404040;
+        }
+        .mac-dots {
+            display: flex;
+            gap: 6px;
+        }
+        .mac-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .mac-dot.red { background: #ff5f56; }
+        .mac-dot.yellow { background: #ffbd2e; }
+        .mac-dot.green { background: #27c93f; }
+        
+        pre {
+            font-family: 'Fira Code', monospace;
+            color: #d4d4d4;
+            tab-size: 4;
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Gradients for Modules */
+        .grad-1 { background: linear-gradient(135deg, #ec4899, #f43f5e); } /* Pink/Rose for Brisk */
+        .grad-2 { background: linear-gradient(135deg, #f59e0b, #fbbf24); } /* Amber/Yellow for Diffit */
+        .grad-3 { background: linear-gradient(135deg, #10b981, #14b8a6); } /* Emerald/Teal for Apps Script */
+    </style>
+</head>
+<body class="text-gray-800 antialiased selection:bg-purple-200 selection:text-purple-900">
+
+    <!-- Navbar -->
+    <nav class="glass-nav sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="group flex items-center text-gray-600 hover:text-purple-600 transition-colors font-medium">
+                        <div class="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-purple-100 flex items-center justify-center mr-3 transition-colors">
+                            <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+                        </div>
+                        返回首頁
+                    </a>
+                    <div class="h-8 w-px bg-gray-300 mx-4"></div>
+                    <span class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-500">
+                        中階篇教材 <i class="fas fa-tree ml-1"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row gap-10">
+        
+        <!-- Sidebar -->
+        <aside class="md:w-72 flex-shrink-0 hidden md:block">
+            <div class="sticky top-28 bg-white/80 backdrop-blur-md rounded-2xl shadow-lg shadow-gray-200/50 p-6 border border-gray-100">
+                <h3 class="font-black text-gray-900 mb-6 uppercase tracking-widest text-xs flex items-center">
+                    <i class="fas fa-list-ul mr-2 text-purple-500"></i> 教學模組導航
+                </h3>
+                <ul class="space-y-1 text-sm font-medium" id="nav-menu">
+                    <li><a href="#module-1" class="nav-link block py-2.5 px-4 text-gray-600 rounded-lg">模組一：Brisk Teaching</a></li>
+                    <li><a href="#module-2" class="nav-link block py-2.5 px-4 text-gray-600 rounded-lg">模組二：Diffit 應用</a></li>
+                    <li><a href="#module-3" class="nav-link block py-2.5 px-4 text-gray-600 rounded-lg">模組三：GEM 生成 Google Forms</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 space-y-16 pb-20">
+            
+            <!-- Module 1 -->
+            <section id="module-1" class="scroll-mt-28 reveal">
+                <div class="bg-white rounded-2xl shadow-xl shadow-pink-900/5 border border-gray-100 overflow-hidden">
+                    <div class="grad-1 px-8 py-6 text-white">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="p-2 bg-white/20 rounded-lg backdrop-blur-sm"><i class="fas fa-feather-alt text-xl"></i></div>
+                            <h2 class="text-2xl font-bold">模組一：甚麼是 Brisk 和如何用 Brisk</h2>
+                        </div>
+                        <p class="text-pink-50 font-medium ml-12">專為教育工作者設計的 Chrome 擴充功能，直接在 Google Docs 中發揮 AI 威力。</p>
+                    </div>
+                    <div class="p-8 space-y-8">
+                        
+                        <div class="bg-pink-50 border-l-4 border-pink-500 p-5 rounded-r-xl">
+                            <h3 class="font-bold text-pink-800 text-lg mb-2">甚麼是 Brisk Teaching？</h3>
+                            <p class="text-gray-700 leading-relaxed">
+                                Brisk Teaching 是一個免費的 Google Chrome 擴充功能，它能無縫整合到您常用的工具中（如 Google Docs、Classroom、網頁文章）。它不需要您打開新的 AI 聊天視窗，而是直接在您正在閱讀或編輯的頁面上提供 AI 輔助。
+                            </p>
+                        </div>
+
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="bg-white border border-gray-100 shadow-sm p-6 rounded-xl hover:shadow-md transition-shadow">
+                                <div class="w-12 h-12 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-xl mb-4"><i class="fas fa-comment-dots"></i></div>
+                                <h4 class="font-bold text-gray-800 mb-2">給予學生回饋</h4>
+                                <p class="text-sm text-gray-600">在 Google Docs 批改學生文章時，Brisk 能根據您設定的評分準則 (Rubrics) 自動生成具建設性的回饋意見。</p>
+                            </div>
+                            <div class="bg-white border border-gray-100 shadow-sm p-6 rounded-xl hover:shadow-md transition-shadow">
+                                <div class="w-12 h-12 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-xl mb-4"><i class="fas fa-layer-group"></i></div>
+                                <h4 class="font-bold text-gray-800 mb-2">調整閱讀難度</h4>
+                                <p class="text-sm text-gray-600">看到一篇適合教學但太難的網頁文章？點擊 Brisk，一鍵將文章改寫為適合小學或初中程度的閱讀材料。</p>
+                            </div>
+                            <div class="bg-white border border-gray-100 shadow-sm p-6 rounded-xl hover:shadow-md transition-shadow">
+                                <div class="w-12 h-12 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-xl mb-4"><i class="fas fa-file-alt"></i></div>
+                                <h4 class="font-bold text-gray-800 mb-2">生成教學資源</h4>
+                                <p class="text-sm text-gray-600">從任何文章或 YouTube 影片，快速生成教案、測驗卷、工作紙，並直接匯出為 Google Docs 或 Forms。</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="font-bold text-xl mb-4 flex items-center"><i class="fas fa-mouse-pointer text-pink-500 mr-2"></i> 如何使用 Brisk</h3>
+                            <ol class="space-y-4 relative border-l-2 border-pink-100 ml-3 pl-6">
+                                <li class="relative">
+                                    <span class="absolute -left-[33px] bg-pink-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ring-4 ring-white">1</span>
+                                    <strong class="text-gray-800">安裝擴充功能：</strong> 前往 Chrome Web Store 搜尋「Brisk Teaching」並新增至 Chrome。
+                                </li>
+                                <li class="relative">
+                                    <span class="absolute -left-[33px] bg-pink-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ring-4 ring-white">2</span>
+                                    <strong class="text-gray-800">開啟網頁或文件：</strong> 打開一篇您想用作教材的網頁文章，或打開學生的 Google Doc 功課。
+                                </li>
+                                <li class="relative">
+                                    <span class="absolute -left-[33px] bg-pink-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ring-4 ring-white">3</span>
+                                    <strong class="text-gray-800">點擊 Brisk 圖示：</strong> 在畫面右下角會出現 Brisk 的羽毛圖示，點擊它展開選單。
+                                </li>
+                                <li class="relative">
+                                    <span class="absolute -left-[33px] bg-pink-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ring-4 ring-white">4</span>
+                                    <strong class="text-gray-800">選擇功能：</strong> 選擇「Change Level (改變難度)」、「Create (建立資源)」或「Give Feedback (給予回饋)」，AI 就會立即在您的畫面上開始工作！
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 2 -->
+            <section id="module-2" class="scroll-mt-28 reveal">
+                <div class="bg-white rounded-2xl shadow-xl shadow-amber-900/5 border border-gray-100 overflow-hidden">
+                    <div class="grad-2 px-8 py-6 text-white">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="p-2 bg-white/20 rounded-lg backdrop-blur-sm"><i class="fas fa-adjust text-xl"></i></div>
+                            <h2 class="text-2xl font-bold">模組二：甚麼是 Diffit 和如何用 Diffit</h2>
+                        </div>
+                        <p class="text-amber-50 font-medium ml-12">為不同程度的學生提供「剛剛好」的學習材料，實現差異化教學。</p>
+                    </div>
+                    <div class="p-8 space-y-8">
+                        
+                        <div class="bg-amber-50 border-l-4 border-amber-500 p-5 rounded-r-xl">
+                            <h3 class="font-bold text-amber-800 text-lg mb-2">甚麼是 Diffit？</h3>
+                            <p class="text-gray-700 leading-relaxed">
+                                Diffit 是一個專為「差異化教學 (Differentiated Instruction)」打造的 AI 平台。它可以將任何主題、網址、PDF 或文字，瞬間轉化為適合不同閱讀程度的教材，並自動生成配套的詞彙表、選擇題和簡答題。
+                            </p>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-white border border-gray-100 shadow-sm p-6 rounded-xl">
+                                <h4 class="font-bold text-gray-800 mb-3 flex items-center"><i class="fas fa-magic text-amber-500 mr-2"></i> 核心功能</h4>
+                                <ul class="space-y-2 text-sm text-gray-600">
+                                    <li><i class="fas fa-check text-green-500 mr-2"></i> <strong>調整閱讀程度：</strong> 將同一篇文章改寫為適合小二到中六的不同難度。</li>
+                                    <li><i class="fas fa-check text-green-500 mr-2"></i> <strong>多語言翻譯：</strong> 支援將教材翻譯成超過 50 種語言，適合非華語學生 (NCS)。</li>
+                                    <li><i class="fas fa-check text-green-500 mr-2"></i> <strong>自動生成練習：</strong> 根據文章內容，自動產生重點摘要、詞彙表、MC 題及開放式問題。</li>
+                                </ul>
+                            </div>
+                            <div class="bg-white border border-gray-100 shadow-sm p-6 rounded-xl">
+                                <h4 class="font-bold text-gray-800 mb-3 flex items-center"><i class="fas fa-share-square text-amber-500 mr-2"></i> 豐富的匯出選項</h4>
+                                <p class="text-sm text-gray-600 mb-3">生成的教材可以直接匯出為多種格式，完美融入您的教學流程：</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-blue-50 text-blue-600 rounded-md text-xs font-bold">Google Docs</span>
+                                    <span class="px-3 py-1 bg-purple-50 text-purple-600 rounded-md text-xs font-bold">Google Forms</span>
+                                    <span class="px-3 py-1 bg-yellow-50 text-yellow-600 rounded-md text-xs font-bold">Google Slides</span>
+                                    <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-md text-xs font-bold">PDF / Word</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="font-bold text-xl mb-4 flex items-center"><i class="fas fa-play-circle text-amber-500 mr-2"></i> 如何使用 Diffit</h3>
+                            <div class="flex flex-col md:flex-row gap-4">
+                                <div class="flex-1 bg-gray-50 p-5 rounded-xl border border-gray-100">
+                                    <div class="text-amber-500 font-bold mb-2">Step 1: 輸入來源</div>
+                                    <p class="text-sm text-gray-600">前往 <code>web.diffit.me</code>。您可以選擇輸入一個主題（如：香港歷史）、貼上一段網址，或者上傳一份 PDF 文件。</p>
+                                </div>
+                                <div class="flex-1 bg-gray-50 p-5 rounded-xl border border-gray-100">
+                                    <div class="text-amber-500 font-bold mb-2">Step 2: 設定程度</div>
+                                    <p class="text-sm text-gray-600">選擇您目標學生的閱讀程度（例如：4th Grade）以及輸出的語言（例如：繁體中文）。</p>
+                                </div>
+                                <div class="flex-1 bg-gray-50 p-5 rounded-xl border border-gray-100">
+                                    <div class="text-amber-500 font-bold mb-2">Step 3: 生成與匯出</div>
+                                    <p class="text-sm text-gray-600">點擊 Generate。檢查 AI 生成的文章與題目，確認無誤後，點擊右上角的 Export 匯出至 Google Classroom。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 3 -->
+            <section id="module-3" class="scroll-mt-28 reveal">
+                <div class="bg-white rounded-2xl shadow-xl shadow-teal-900/5 border border-gray-100 overflow-hidden">
+                    <div class="grad-3 px-8 py-6 text-white">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="p-2 bg-white/20 rounded-lg backdrop-blur-sm"><i class="fab fa-google text-xl"></i></div>
+                            <h2 class="text-2xl font-bold">模組三：GEM 生成 Google Forms MC</h2>
+                        </div>
+                        <p class="text-teal-50 font-medium ml-12">進階自動化：上傳教材至 Gemini，讓 AI 寫出 Apps Script 自動建立 20 題 Google Form 測驗。</p>
+                    </div>
+                    <div class="p-8 space-y-10">
+                        
+                        <!-- Step 1 & 2 -->
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800 mb-3 flex items-center">
+                                    <span class="w-8 h-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center mr-2 text-sm">1</span>
+                                    設定 GEM (系統指令)
+                                </h3>
+                                <p class="text-sm text-gray-600 mb-3">在 Gemini 中建立一個新的 Gem，並貼上以下 System Instructions：</p>
+                                <div class="code-window relative group">
+                                    <div class="code-header justify-between">
+                                        <div class="mac-dots"><div class="mac-dot red"></div><div class="mac-dot yellow"></div><div class="mac-dot green"></div></div>
+                                        <span class="text-xs text-gray-400 font-mono">gem_instructions.txt</span>
+                                    </div>
+                                    <div class="p-4">
+                                        <pre class="whitespace-pre-wrap text-xs leading-relaxed" id="prompt-gas-gem"><span class="text-gray-300">你是一位精通教育評估與 Google Apps Script (GAS) 的專家。你的任務是根據我提供的教材，設計高質素的多項選擇題 (MC)，並編寫能直接在 Google Forms 執行的 Apps Script 程式碼。
+
+要求：
+1. 選擇題必須有 4 個選項 (A, B, C, D)。
+2. 題目需具備挑戰性，避免過於直接的抄寫題。
+3. 輸出的 Apps Script 必須設定好正確答案及每題的分數。</span></pre>
+                                    </div>
+                                    <button onclick="copyToClipboard('prompt-gas-gem', this)" class="absolute bottom-4 right-4 text-gray-400 hover:text-white bg-gray-700 hover:bg-teal-600 p-2 rounded-lg transition-all opacity-0 group-hover:opacity-100 shadow-xl"><i class="far fa-copy"></i></button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800 mb-3 flex items-center">
+                                    <span class="w-8 h-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center mr-2 text-sm">2</span>
+                                    上傳教材與輸入 Prompt
+                                </h3>
+                                <p class="text-sm text-gray-600 mb-3">將您的教材 (PDF/Word) 上傳至對話框，然後輸入以下 Prompt：</p>
+                                <div class="code-window relative group">
+                                    <div class="code-header justify-between">
+                                        <div class="mac-dots"><div class="mac-dot red"></div><div class="mac-dot yellow"></div><div class="mac-dot green"></div></div>
+                                        <span class="text-xs text-gray-400 font-mono">gas_prompt.txt</span>
+                                    </div>
+                                    <div class="p-4">
+                                        <pre class="whitespace-pre-wrap text-xs leading-relaxed" id="prompt-gas-task"><span class="text-teal-300">請根據我上傳的教材，幫我設計 20 題中三級程度的 MC 題。</span>
+
+<span class="text-gray-300">然後，請提供一段完整的 Google Apps Script 程式碼，讓我可以在執行後，自動建立一個名為「單元測驗」的 Google Form，並將這 20 題 MC 題（連同正確答案設定及每題 1 分）自動匯入該問卷中。請確保程式碼可以直接複製執行。</span></pre>
+                                    </div>
+                                    <button onclick="copyToClipboard('prompt-gas-task', this)" class="absolute bottom-4 right-4 text-gray-400 hover:text-white bg-gray-700 hover:bg-teal-600 p-2 rounded-lg transition-all opacity-0 group-hover:opacity-100 shadow-xl"><i class="far fa-copy"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-800 mb-4 flex items-center">
+                                <span class="w-8 h-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center mr-2 text-sm">3</span>
+                                執行 Apps Script 建立問卷
+                            </h3>
+                            <div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
+                                <ol class="list-decimal pl-5 space-y-3 text-gray-700">
+                                    <li>在瀏覽器網址列輸入 <code class="bg-white border border-gray-200 px-2 py-1 rounded text-teal-600 font-mono font-bold">script.new</code>，這會自動開啟一個新的 Google Apps Script 專案。</li>
+                                    <li>將編輯器中原有的 <code>function myFunction() {}</code> 刪除。</li>
+                                    <li>將 Gemini 生成的程式碼貼上到編輯器中。</li>
+                                    <li>點擊上方的 <strong>「儲存」</strong> 圖示（或按 Ctrl+S）。</li>
+                                    <li>點擊上方的 <strong>「執行 (Run)」</strong> 按鈕。</li>
+                                    <li><em>首次執行時，Google 會要求授權。點擊「審查權限」 > 選擇您的帳號 > 點擊「進階」 > 點擊「前往專案 (不安全)」 > 點擊「允許」。</em></li>
+                                    <li>執行完成後，前往您的 Google Drive，您就會看到一份已經設定好 20 題 MC 及正確答案的 Google Form！</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12 py-10">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-purple-50 text-purple-500 mb-4">
+                <i class="fas fa-graduation-cap text-xl"></i>
+            </div>
+            <p class="text-gray-500 text-sm font-medium tracking-wide">
+                &copy; 2026 教師人工智能工作坊. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Copy to clipboard with animation
+        function copyToClipboard(elementId, btn) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const icon = btn.querySelector('i');
+                const originalClass = icon.className;
+                
+                // Change button style
+                btn.classList.add('bg-green-500', 'text-white');
+                btn.classList.remove('bg-gray-700', 'text-gray-400');
+                icon.className = 'fas fa-check text-lg';
+                
+                setTimeout(() => {
+                    btn.classList.remove('bg-green-500', 'text-white');
+                    btn.classList.add('bg-gray-700', 'text-gray-400');
+                    icon.className = originalClass;
+                }, 2000);
+            });
+        }
+
+        // Scrollspy for Sidebar
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            // Intersection Observer for Scroll Reveal Animations
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+            sections.forEach(sec => {
+                revealObserver.observe(sec);
+            });
+
+            // Scrollspy logic
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= (sectionTop - 150)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
