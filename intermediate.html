@@ -407,7 +407,10 @@
 4. 網頁必須包含互動元素，例如翻卡、配對題、MC 題、即時回饋、答案顯示、進度追蹤或反思題。
 5. 設計要專業、色彩生動、適合課堂展示及學生自學。
 6. 必須使用繁體中文，除非老師另有要求。
-7. 若教材資訊不足，請先提出 3 個澄清問題；若足夠，直接輸出完整 HTML 程式碼。</span></pre>
+7. 如果教材屬語文科、英文科或包含大量新詞，必須加入 vocab list，包括詞語、詞性、中文解釋、英文解釋、例句及學生友善解釋。
+8. 如果教材屬英文或語文學習，必須加入語音功能，例如 Listen / Read Aloud 按鈕，使用瀏覽器 Web Speech API 的 speechSynthesis 朗讀文章、例句或 vocabulary。不要要求老師另外上傳音訊檔。
+9. 語音功能需要有清晰按鈕、播放狀態提示及停止朗讀按鈕；英文教材優先使用 en-US 或 en-GB voice，中文教材優先使用 zh-HK 或 zh-TW voice。
+10. 若教材資訊不足，請先提出 3 個澄清問題；若足夠，直接輸出完整 HTML 程式碼。</span></pre>
                                     </div>
                                     <button onclick="copyToClipboard('prompt-webapp-gem', this)" class="absolute bottom-4 right-4 text-gray-400 hover:text-white bg-gray-700 hover:bg-indigo-600 p-2 rounded-lg transition-all opacity-0 group-hover:opacity-100 shadow-xl"><i class="far fa-copy"></i></button>
                                 </div>
@@ -440,6 +443,13 @@
 - 鞏固活動：配對題、排序題或翻卡活動
 - 總結反思：提供 2 條開放式反思問題
 
+如果這份教材是語文科或英文教材，請額外加入：
+- Vocabulary List：至少 12 個重點字詞，包含詞性、中文解釋、英文解釋及例句
+- Listen 按鈕：可朗讀課文重點、例句及 vocabulary
+- Pronunciation Practice：學生可逐個字詞按發音，並看到簡單發音提示
+- Reading Aloud Practice：提供一段短文，讓學生跟讀
+- 所有語音請使用 JavaScript Web Speech API (speechSynthesis)，不要使用外部音訊檔
+
 技術要求：
 - 請輸出完整 HTML 程式碼
 - 所有 CSS 和 JavaScript 必須放在同一個 HTML 檔案內
@@ -454,6 +464,35 @@
                         <div>
                             <h3 class="font-bold text-lg text-gray-800 mb-4 flex items-center">
                                 <span class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mr-2 text-sm">3</span>
+                                語文科及英文教材：必加功能
+                            </h3>
+                            <div class="grid md:grid-cols-2 gap-5">
+                                <div class="bg-white p-5 rounded-xl border border-indigo-100 shadow-sm relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
+                                    <h4 class="font-bold text-gray-800 mb-3 flex items-center"><i class="fas fa-book-open text-indigo-500 mr-2"></i> Vocabulary List</h4>
+                                    <p class="text-sm text-gray-600 mb-3">GEM 需要從教材抽取重點詞彙，並整理成學生可自學的詞彙表。</p>
+                                    <ul class="text-sm text-gray-600 space-y-2">
+                                        <li><i class="fas fa-check text-green-500 mr-2"></i> 詞語 / 詞性 / 中文解釋 / 英文解釋</li>
+                                        <li><i class="fas fa-check text-green-500 mr-2"></i> 每個字詞配一個例句</li>
+                                        <li><i class="fas fa-check text-green-500 mr-2"></i> 可加入翻卡或配對練習</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white p-5 rounded-xl border border-purple-100 shadow-sm relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 w-1 h-full bg-purple-500"></div>
+                                    <h4 class="font-bold text-gray-800 mb-3 flex items-center"><i class="fas fa-volume-up text-purple-500 mr-2"></i> 語音朗讀與發音練習</h4>
+                                    <p class="text-sm text-gray-600 mb-3">GEM 需要使用瀏覽器內置的 Web Speech API 製作 Listen 按鈕，不需要上傳 MP3。</p>
+                                    <ul class="text-sm text-gray-600 space-y-2">
+                                        <li><i class="fas fa-check text-green-500 mr-2"></i> 朗讀課文重點、例句和 vocab</li>
+                                        <li><i class="fas fa-check text-green-500 mr-2"></i> 提供 Stop 按鈕停止朗讀</li>
+                                        <li><i class="fas fa-check text-green-500 mr-2"></i> 英文使用 en-US / en-GB，中文使用 zh-HK / zh-TW</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="font-bold text-lg text-gray-800 mb-4 flex items-center">
+                                <span class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mr-2 text-sm">4</span>
                                 老師實作流程
                             </h3>
                             <div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
@@ -478,6 +517,10 @@
                                 <div class="bg-white p-4 rounded-lg border border-purple-100">
                                     <strong class="text-purple-700">練習 B：即時小測 App</strong>
                                     <p class="mt-2">上傳一份課文，要求 GEM 生成 8 題 MC，每題有即時回饋及總分統計。</p>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg border border-purple-100">
+                                    <strong class="text-purple-700">練習 C：英文 Vocab + Listening App</strong>
+                                    <p class="mt-2">上傳一篇英文閱讀材料，要求 GEM 生成 vocab list、例句朗讀、字詞發音按鈕和跟讀練習。</p>
                                 </div>
                             </div>
                         </div>
